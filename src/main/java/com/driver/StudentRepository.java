@@ -23,7 +23,7 @@ public class StudentRepository {
     }
 
     public void addStudentTeacherPair(String student, String teacher){
-        if(listOfTeachers.containsKey(student) && listOfTeachers.containsKey(teacher)){
+        if(listOfStudents.containsKey(student) && listOfTeachers.containsKey(teacher)){
             listOfStudents.put(student,listOfStudents.get(student));
             listOfTeachers.put(teacher,listOfTeachers.get(teacher));
             List<String> students = new ArrayList<>();
@@ -52,24 +52,20 @@ public class StudentRepository {
     }
 
     public List<String> getAllStudents(){
-        List<String> students = new ArrayList<>();
-        for(Student studentName : listOfStudents.values()){
-            students.add(studentName.getName());
-        }
-        return students;
+        return new ArrayList<>(listOfStudents.keySet());
     }
 
     public void deleteTeacherByName(String teacherName){
-        List<String> teacher = new ArrayList<>();
+        List<String> students = new ArrayList<>();
 
         if(listOfTeachers.containsKey(teacherName)){
             listOfTeachers.remove(teacherName);
         }
         if(teacherStudentPair.containsKey(teacherName)){
-            teacher = teacherStudentPair.get(teacherName);
-            for(String students : teacher){
-                if(listOfStudents.containsKey(students)){
-                    listOfStudents.remove(students);
+            students = teacherStudentPair.get(teacherName);
+            for(String student : students){
+                if(listOfStudents.containsKey(student)){
+                    listOfStudents.remove(student);
                 }
             }
             teacherStudentPair.remove(teacherName);
@@ -80,14 +76,14 @@ public class StudentRepository {
         HashSet<String> studentsSet = new HashSet<>();
 
         for (String teacher : teacherStudentPair.keySet()){
-            for(String movie : teacherStudentPair.get(teacher)){
-                studentsSet.add(movie);
+            for(String student : teacherStudentPair.get(teacher)){
+                studentsSet.add(student);
             }
         }
 
-        for(String students : studentsSet){
-            if(listOfStudents.containsKey(students)){
-                studentsSet.remove(students);
+        for(String student : studentsSet){
+            if(listOfStudents.containsKey(student)){
+                listOfStudents.remove(student);
             }
         }
     }
